@@ -1,4 +1,6 @@
 <?php
+session_start(); // Start the session
+
 include("sqlcon.php");
 $conn = dbconn();
 
@@ -12,6 +14,20 @@ if (isset($_POST["submit"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
     $confirmpassword = $_POST["confirm_password"];
+
+    $profilePicturePath = "uploads/default-profile-picture.jpg"; 
+    
+    if (!empty($_FILES["profile_picture"]["name"])) {
+        $targetDirectory = "uploads/";
+        $profilePictureFileName = $username . "_" . time() . "." . pathinfo($_FILES["profile_picture"]["name"], PATHINFO_EXTENSION);
+        $targetFile = $targetDirectory . $profilePictureFileName;
+
+        if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $targetFile)) {
+            $profilePicturePath = $targetFile;
+        } else {
+            echo "<script> alert('Sorry, there was an error uploading your profile picture.'); </script>";
+        }
+    }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<script> alert('Invalid Email Format'); </script>";
@@ -29,8 +45,11 @@ if (isset($_POST["submit"])) {
             if ($password == $confirmpassword) {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                $query = "INSERT INTO tb_user (name, username, email, password) VALUES ('$name', '$username', '$email', '$hashed_password')";
+                $query = "INSERT INTO tb_user (name, username, email, password, profile_picture_path) VALUES ('$name', '$username', '$email', '$hashed_password', '$profilePicturePath')";
                 mysqli_query($conn, $query);
+
+                $_SESSION['profile_picture_path'] = $profilePicturePath;
+
                 echo "<script> alert('Registration Successful'); </script>";
             } else {
                 echo "<script> alert('Password Do Not Match'); </script>";
@@ -54,7 +73,7 @@ if (isset($_POST["submit"])) {
 <body>
     <h2>Registration</h2>
     <div class="container-fluid">
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" autocomplete="off" class="col-2">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data" autocomplete="off" class="col-2">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -69,6 +88,9 @@ if (isset($_POST["submit"])) {
     
             <label for="confirm_password">Confirm Password:</label>
             <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <label for="profile_picture">Profile Picture:</label>
+            <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
     
             <button type="submit" name="submit">Submit</button>
         </form>
