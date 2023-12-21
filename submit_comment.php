@@ -1,37 +1,26 @@
 <?php
 session_start();
-
-
 include("sqlcon.php");
 $conn = dbconn();
 
-if (!isset($_SESSION['id'])) {
-    echo 'Error: User not logged in.';
-    exit();
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-$articleId = $_POST['articleId'];
 
+$comment = $_POST['comment_text'];
+$articleId = isset($_GET['id']) ? $_GET['id'] : null;
 
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-    $commentText = $_POST['commentText'];
+if (!empty($comment) && !empty($articleId)) {
+    $sql = "INSERT INTO comments (comment_text, article_id) VALUES (?, ?)";
 
-    $sql = "INSERT INTO comments (article_id, user_id, comment_text) VALUES ('$articleId', '$userId', '$commentText')";
-    $result = $conn->query($sql);
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("si", $comment, $articleId);
+        $stmt->execute();
+        $stmt->close();
 
-    if ($result) {
-        echo '<div class="d-flex mb-4">
-            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-            <div class="ms-3">
-                <div class="fw-bold">'.$username.'</div>
-                '.$commentText.'
-            </div>
-        </div>';
-    } else {
-        echo 'Error: Unable to insert comment.';
+        header("Location: artikel.php?id=" . $articleId);
+        exit();
     }
-} else {
-    echo 'Error: User not logged in.';
 }
 
 $conn->close();

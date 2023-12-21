@@ -77,7 +77,7 @@ if (isset($_GET["logout"])) {
                     echo '<li class="nav-item border rounded-pill text-center" style="background-color:#EADCC7; width: 100px; height: 40px;"> <a class="nav-link" href="?logout=true">Logout</a> </li>';
                 } else {
                     echo '<li class="nav-item border rounded-pill text-center" style="background-color:#EADCC7; width: 100px; height: 40px"><a class="nav-link" href="login.php">Login</a></li>';
-                    echo '<li class="nav-item border rounded-pill text-center" style="background-color:#EADCC7; width: 100px; height: 40px; margin-left: 10px;"><a class="nav-link" href="regis.php">Sign Up</a></li>';
+                    echo '<li class="nav-item border rounded-pill text-center ms-md-1" style="background-color:#EADCC7; width: 100px; height: 40px;"><a class="nav-link" href="regis.php">Sign Up</a></li>';
                 }
                 ?>
             </ul>
@@ -94,7 +94,7 @@ if (isset($_GET["logout"])) {
             <div class="col-1">
                 <?php
                 if (!empty($_SESSION['profile_picture_path'])) {
-                    echo '<img src="' . $_SESSION['profile_picture_path'] . '" class="img-fluid rounded-circle" alt="Profile Picture">';
+                    echo '<img src="' . $_SESSION['profile_picture_path'] . '" class="rounded-circle img-fluid" style="width:32px;height:32px" alt="Profile Picture">';
                 } else {
                     echo '<img src="default-profile-picture.jpg" class="rounded-circle img-fluid" style="width:32px;height:32px" alt="Default Profile Picture">';
                 }
