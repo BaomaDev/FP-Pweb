@@ -61,7 +61,7 @@ if (isset($_GET["logout"])) {
 <body>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#80B9A6">
     <div class="container">
-        <a class="navbar-brand col-md-2" href="index.php">Navbar</a>
+        <a class="navbar-brand col-md-2 fw-bold" href="index.php">ForumIn</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

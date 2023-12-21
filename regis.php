@@ -62,40 +62,63 @@ if (isset($_POST["submit"])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 </head>
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        overflow: hidden;
+    }
+
+    #example {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+</style>
 <body>
-    <h2>Registration</h2>
-    <div class="container-fluid">
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data" autocomplete="off" class="col-2">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
 
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-    
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-    
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-    
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
+    <div class="container border shadow-lg rounded" id="example">
+        <div class="row">
+        <div class="col-md-6 px-3 py-4" style="background-color:#D6EEE4">
+            <h3 class="fw-bold">Create A New Account</h3> <hr>
+            <form class="mt-2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data" autocomplete="off" class="col-2">
+            <label class="fw-bold">Name</label>
+            <input class="col-12 rounded mb-1 border-1" style="height:40px" type="text" id="name" name="name" placeholder="Nama Lengkap Anda" required><br>
 
-            <label for="profile_picture">Profile Picture:</label>
-            <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-    
-            <button type="submit" name="submit">Submit</button>
-        </form>
+            <label class="fw-bold">Password</label>
+            <input class="col-12 rounded mb-1 border-1" style="height:40px" type="text" id="username" name="username" placeholder="Username" required><br>
+
+            <label class="fw-bold">E-Mail</label>
+            <input class="col-12 rounded mb-1 border-1" style="height:40px" type="email" id="email" name="email" placeholder="E-Mail" required><br>
+
+            <label class="fw-bold">Password</label>
+            <input class="col-12 rounded mb-1 border-1" style="height:40px" type="password" id="password" name="password" placeholder="Password" required><br>
+
+            <label class="fw-bold">Confirm Password</label>
+            <input class="col-12 rounded mb-1 border-1" style="height:40px" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required><br>
+
+            <label class="fw-bold">Profile Picture</label>
+            <input class="col-12 rounded mb-1 border-1" style="height:40px" ttype="file" id="profile_picture" name="profile_picture" accept="image/*" placeholder="Nama Lengkap Anda..." required><br>
+
+            <input class="col-12 rounded-pill mb-1 border-1 fw-bold" style="height:40px; background-color:#C9DED9; color:#3F6675" type="submit" name="submit">
+            <p>Sudah Punya Akun? <a href="login.php" class="fw-bold">Log In Sekarang</a></p>
+            </form>
+        </div>
+            <div class="col-md-6 d-none d-lg-block" style="padding-left:30px">
+                <img src="regis.png" class="img-fluid" alt="Login Image">
+            </div>
+        </div>
     </div>
-
-    <p>Already have an account? <a href="login.php">Login</a></p>
 </body>
 </html>

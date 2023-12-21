@@ -1,4 +1,6 @@
 <?php
+session_start(); 
+
 include("sqlcon.php");
 $conn = dbconn();
 
@@ -37,6 +39,7 @@ if (isset($_GET["logout"])) {
   header("Location: index.php");
   exit();
 }
+
 $conn->close();
 ?>
 
@@ -117,41 +120,22 @@ $conn->close();
                 </tr>
             </table>
         </div>
+
+        <!--comment_section-->
         <section class="mt-3">
             <div class="card bg-light">
-            <div class="card-body">
-            <div class="mb-4"><textarea class="div-control" rows="3" placeholder="Tulis komentarmu"></textarea></div>
-                <div class="d-flex mb-4">
-                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                    <div class="ms-3">
-                    <div class="fw-bold">Jeremy</div>
-                        If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                    <div class="d-flex mt-4">
-                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                    <div class="ms-3">
-                        <div class="fw-bold">James</div>
-                            And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+                <div class="card-body">
+                    <form id="commentForm">
+                        <div class="mb-4">
+                            <textarea class="form-control" rows="3" id="commentText" placeholder="Write your comment"></textarea>
                         </div>
-                    </div>
-                            <div class="d-flex mt-4">
-                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Budi</div>
-                                    When you put money directly to a problem, it makes a good headline.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">Gaboleh</div>
-                            When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                        </div>
-                    </div>
+                        <button type="button" class="btn btn-primary" onclick="submitComment()">Submit Comment</button>
+                    </form>
                 </div>
+                <div id="commentsContainer" class="mt-3"></div>
             </div>
         </section>
+
         </div>
 
         <div class='col-3 border ms-5 d-none d-md-block' style="height:480px; background-color:#D6EEE4">
@@ -161,6 +145,42 @@ $conn->close();
         </div>
         </div>
     </div>
+
+    <!-- Add this script inside your head tag -->
+    <script>
+    function submitComment() {
+        var commentText = document.getElementById('commentText').value;
+
+        // Make AJAX request
+        $.ajax({
+            type: 'POST',
+            url: 'submit_comment.php', // Create a new PHP file for handling comment submission
+            data: { articleId: <?php echo $articleId; ?>, commentText: commentText },
+            success: function(response) {
+                // Update the comments container with the new comment
+                $('#commentsContainer').prepend(response);
+                // Clear the comment textarea
+                $('#commentText').val('');
+            }
+        });
+    }
+
+    // Fetch existing comments on page load
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'get_comments.php', // Create a new PHP file for fetching comments
+            data: { articleId: <?php echo $articleId; ?> },
+            success: function(response) {
+                // Update the comments container with existing comments
+                $('#commentsContainer').html(response);
+            }
+        });
+    });
+    </script>
+
 </body>
+
+
 
 </html>
